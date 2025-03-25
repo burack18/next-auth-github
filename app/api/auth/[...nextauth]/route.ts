@@ -11,6 +11,12 @@ const authOptions = {
         GithubProvider({
             clientId: process.env.NEXTAUTH_GITHUB_CLIENTID!,
             clientSecret: process.env.NEXTAUTH_GITHUB_CLIENTSECRET!,
+            authorization: {
+                url: "https://github.com/login/oauth/authorize",
+                params: {
+                  prompt: "consent", // This ensures GitHub always prompts for authorization
+                },
+              },
         }),
         GoogleProvider({
             clientId: process.env.NEXTAUTH_GOOGLE_CLIENT_ID!,
@@ -19,10 +25,15 @@ const authOptions = {
         TwitterProvider({
             clientId: process.env.NEXTAUTH_TWITTER_CLIENT_ID!,
             clientSecret: process.env.NEXTAUTH_TWITTER_CLIENT_SECRET!
-          })
+        }),
+        
+       
         // ...add more providers here
 
     ],
+    pages: {
+        signIn: "/auth/login", // Route to your custom page
+    },
 
     callbacks: {
         async signIn({ user, account, profile, email, credentials }: any) {
